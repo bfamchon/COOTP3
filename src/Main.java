@@ -17,7 +17,7 @@ public class Main {
 		try {
 			List<Bureau> listBureau = bMapper.find();
 			Bureau b = bMapper.findById(0);
-			
+			System.out.println(b.getId() + b.getDescription());
 			System.out.println("fin");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

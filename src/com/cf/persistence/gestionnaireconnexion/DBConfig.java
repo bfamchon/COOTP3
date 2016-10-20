@@ -23,6 +23,8 @@ public class DBConfig {
 		try {
 			if(conn==null || conn.isClosed()){
 					conn = DriverManager.getConnection(Constante.CONNEXION_CONFIG);
+//					conn = DriverManager.getConnection(Constante.CONNEXION_CONFIG_BAPTISTE);
+// 					conn = DriverManager.getConnection(Constante.CONNEXION_CONFIG_LAURENT);
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
