@@ -22,8 +22,8 @@ public class DBConfig {
 	public Connection getConn(){
 		try {
 			if(conn==null || conn.isClosed()){
-					conn = DriverManager.getConnection(Constante.CONNEXION_CONFIG);
-//					conn = DriverManager.getConnection(Constante.CONNEXION_CONFIG_BAPTISTE);
+//					conn = DriverManager.getConnection(Constante.CONNEXION_CONFIG);
+					conn = DriverManager.getConnection(Constante.CONNEXION_CONFIG_BAPTISTE);
 // 					conn = DriverManager.getConnection(Constante.CONNEXION_CONFIG_LAURENT);
 			}
 		} catch (SQLException e) {

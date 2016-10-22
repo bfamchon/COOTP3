@@ -114,5 +114,15 @@ public class Bureau {
 			}
 		}
 	}
-
+	/* (non-Javadoc)
+ * @see java.lang.Object#toString()
+ */
+	@Override
+	public String toString(){
+		String bureauStr= "Id : "+this.getId()+" / Description : "+this.getDescription()+" / Occupants : [\n";
+		for (Personne p: this.getOccupants()) {
+			bureauStr+="- " +p.toString() +"\n";
+		}
+		return bureauStr+="]\n";
+	}
 }
