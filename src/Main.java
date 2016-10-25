@@ -1,11 +1,8 @@
 import java.sql.SQLException;
 import java.util.List;
 
-import com.cf.domain.Administratif;
 import com.cf.domain.Bureau;
-import com.cf.domain.Chercheur;
 import com.cf.domain.Personne;
-import com.cf.metier.ServicesMetier;
 import com.cf.persistence.BureauMapper;
 import com.cf.persistence.InterfaceMapper;
 import com.cf.persistence.PersonneMapper;
@@ -21,7 +18,8 @@ public class Main {
 		InterfaceMapper<Bureau> bMapper = new BureauMapper();
 		InterfaceMapper<Personne> pMapper = new PersonneMapper();
 		try {
-			ServicesMetier sm = new ServicesMetier();
+			List<Bureau> b = bMapper.find();
+			/*ServicesMetier sm = new ServicesMetier();
 			List<Personne> listPers=sm.listerPersonnesDansBureau(0);
 
 			Personne p = new Chercheur(999,"NoName","1111111111",".org");
@@ -31,7 +29,7 @@ public class Main {
 			pMapper.delete(p);
 
 			sm.enleverPersonneBureau(9);
-			sm.affecterPersonneBureau(9,3);
+			sm.affecterPersonneBureau(9,3);*/
 //			List<Bureau> listBureau = bMapper.find();
 //			List<Personne> listPers = pMapper.find();
 
@@ -65,7 +63,6 @@ public class Main {
 
 			System.out.println("fin");
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		DBConfig.getInstance().fermerConnexion();

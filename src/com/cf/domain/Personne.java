@@ -16,13 +16,17 @@ public abstract class Personne {
 	/**
 	 * nom de la personne
 	 */
-	private String Nom;
+	private String nom;
 	/**
 	 * numero de téléphone de la personne
 	 */
-	private String Numero;
+	private String numero;
 	
-	
+	/**
+	 * Repr�sente l'id du bureau dans lequelle la personne est affect�. Ne pas modifier cette attribut except� avec les m�thodes 
+	 * SMGestionnaireBureau.enleverPersonneBureau/affecterPersonneBureau
+	 */
+	private Integer idBureau;
 	
 	/**
 	 * Constructeur de l'objet personne, sera appelé dans les classe héritant de Personne
@@ -33,8 +37,8 @@ public abstract class Personne {
 	public Personne(int id, String nom, String numero) {
 		super();
 		this.id = id;
-		Nom = nom;
-		Numero = numero;
+		nom = nom;
+		numero = numero;
 	}
 	
 
@@ -58,28 +62,28 @@ public abstract class Personne {
 	 * @return le nom de la personne
 	 */
 	public String getNom() {
-		return Nom;
+		return nom;
 	}
 	/**
 	 * Accesseur du champ nom
 	 * @param nom nouveau nom de la personne
 	 */
 	public void setNom(String nom) {
-		Nom = nom;
+		nom = nom;
 	}
 	/**
 	 * Accesseur du champ numero de téléphone
 	 * @return le numero de téléphone de la personne
 	 */
 	public String getNumero() {
-		return Numero;
+		return numero;
 	}
 	/**
 	 * Accesseur du champ numero
 	 * @param numero nouveau numero de téléphone la personne
 	 */
 	public void setNumero(String numero) {
-		Numero = numero;
+		numero = numero;
 	}
 	
 	
@@ -89,6 +93,18 @@ public abstract class Personne {
 	 */
 	public void changerNumero(String nouveauNumero){
 		this.setNumero(nouveauNumero);
+	}
+
+
+
+	public Integer getIdBureau() {
+		return idBureau;
+	}
+
+
+
+	public void setIdBureau(Integer idBureau) {
+		this.idBureau = idBureau;
 	}
 	
 	
