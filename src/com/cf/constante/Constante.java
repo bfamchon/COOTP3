@@ -6,6 +6,6 @@ public class Constante {
 					                               "user=famchon&password=BLABLA";
 
 	public static final String CONNEXION_CONFIG_BAPTISTE = "jdbc:mysql://localhost/bddtp3?" + "user=BLABLA&password=BLABLA";
-	public static final String CONNEXION_CONFIG_LAURENT = "jdbc:mysql://localhost/tabasemysql?" + "user=root&password=BLABLA";
+	public static final String CONNEXION_CONFIG_LAURENT = "jdbc:mysql://localhost/tp3java?" + "user=root";
 
 }

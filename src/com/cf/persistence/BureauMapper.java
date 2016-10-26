@@ -23,7 +23,25 @@ public class BureauMapper implements InterfaceMapper<Bureau>{
 	private static final String SELECT_FROM_BUREAU= "SELECT b.id_bureau, b.description FROM bureau b";
 	private static final String INSERT_INTO_BUREAU_VALUES = "INSERT INTO bureau VALUES(?,?)";
 	private static final String DELETE_FROM_BUREAU_WHERE_ID = "DELETE FROM bureau WHERE id_bureau= ?";
-	private static int ID=0;
+	private static final String SEARCH_MAX_ID = "SELECT MAX(id_bureau) as maxid FROM bureau";
+
+	public static int ID = chercherMAXID();
+
+	public static int chercherMAXID()  {
+		String req = SEARCH_MAX_ID;
+		PreparedStatement ps;
+		try {
+			ps = DBConfig.getInstance().getConn().prepareStatement(req);
+			ResultSet rs = ps.executeQuery();
+	//		Si il existe des données en base
+			if(rs.next()) {
+				return rs.getInt("maxid")+1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	/**
 	 * Inserer un nouveau bureau
 	 * @param b le bureau à insérer
@@ -35,6 +53,7 @@ public class BureauMapper implements InterfaceMapper<Bureau>{
 		ps.setInt(1, b.getId());
 		ps.setString(2, b.getDescription());
 		ps.executeUpdate();
+		b.setId(ID);
 		ID++;
 	}
 
@@ -92,6 +111,7 @@ public class BureauMapper implements InterfaceMapper<Bureau>{
 				b= new Bureau(idBureau, descriptionBureau);
 				listBureau.add(b);
 			}
+			personne.setIdBureau(b.getId());
 			b.ajouterOccupant(personne);
 		}
 
@@ -126,10 +146,14 @@ public class BureauMapper implements InterfaceMapper<Bureau>{
 			String descriptionBureau = rs.getString(2);
 			b = new Bureau(idBureau,descriptionBureau);
 			
-			b.ajouterOccupant(extrairePersonneBureau(rs));
+			Personne p = extrairePersonneBureau(rs);
+			p.setIdBureau(idBureau);
+			b.ajouterOccupant(p);
 	
 			while(rs.next()) {
-				b.ajouterOccupant(extrairePersonneBureau(rs));
+				p = extrairePersonneBureau(rs);
+				p.setIdBureau(idBureau);
+				b.ajouterOccupant(p);
 			}
 		}
 		return b;

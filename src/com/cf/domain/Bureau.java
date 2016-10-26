@@ -12,7 +12,7 @@ public class Bureau {
 	/**
 	 * id du bureau
 	 */
-	private int id;
+	private Integer id;
 	/**
 	 * description du bureau
 	 */
@@ -22,7 +22,12 @@ public class Bureau {
 	 */
 	private List<Personne> occupants;
 
-	
+	public Bureau(String description) {
+		super();
+		this.id = null;
+		this.description = description;
+		this.occupants = new ArrayList<Personne>();
+	}
 	
 	public Bureau(int id, String description) {
 		super();
@@ -42,7 +47,7 @@ public class Bureau {
 	 * Accesseur du champ id
 	 * @return retourne l'id du bureau
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
@@ -50,7 +55,7 @@ public class Bureau {
 	 * Accesseur du champ id
 	 * @param id nouvelle id du bureau
 	 */
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -107,7 +112,7 @@ public class Bureau {
 	 * retire un occupant du bureau
 	 * @param idOccupants id de l'occupant que l'on souhaite retirer
 	 */
-	public void retirerOccupant(int idOccupants) {
+	public void retirerOccupant(Integer idOccupants) {
 		for (Personne occupant : occupants) {
 			if (occupant.getId() == idOccupants) {
 				this.occupants.remove(occupant);

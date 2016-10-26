@@ -1,5 +1,7 @@
 package com.cf.persistence;
 
+import static com.cf.persistence.Extraction.extrairePersonne;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,8 +13,6 @@ import com.cf.domain.Administratif;
 import com.cf.domain.Chercheur;
 import com.cf.domain.Personne;
 import com.cf.persistence.gestionnaireconnexion.DBConfig;
-
-import static com.cf.persistence.Extraction.extrairePersonne;
 /**
  * Created by baptiste on 22/10/16.
  * Class représentante d'un mapper de personne
@@ -21,6 +21,9 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	private static final String SELECT_FROM_PERSONNE_WHERE_ID = "SELECT p.id_personne, p.nom, p.telephone,p.domaine,p.qualification,p.formation,p.typePersonne " +
 			"FROM personne p " +
 			"WHERE p.id_personne=?";
+	private static final String SELECT_FROM_PERSONNE_WHERE_NUMTEL = "SELECT p.id_personne, p.nom, p.telephone,p.domaine,p.qualification,p.formation,p.typePersonne " +
+			"FROM personne p " +
+			"WHERE p.telephone=?";
 	private static final String UPDATE_PERSONNE_SET_INFOS_WHERE_ID = "UPDATE personne " +
 			"SET nom=?,telephone=?,domaine=?,qualification=?,formation=?,typePersonne=? " +
 			"WHERE id_personne=?";
@@ -28,9 +31,6 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 			"FROM personne p";
 	private static final String INSERT_INTO_PERSONNE_VALUES = "INSERT INTO personne VALUES(?,?,?,?,?,?,?,?)";
 	private static final String DELETE_FROM_PERSONNE_WHERE_ID = "DELETE FROM personne WHERE id_personne=?";
-	private static final String UPDATE_BUREAU = "UPDATE personne " +
-			"SET id_bureau=? " +
-			"WHERE id_personne=?";
 	private static final String SEARCH_MAX_ID = "SELECT MAX(id_personne) as maxid FROM personne";
 
 	/**
@@ -43,25 +43,29 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 * Solution + chiante: CHECK validité de l'ID en base > Si valide: ID de l'objet Personne,Sinon: MAX(ID)+1
 	 * Plus éfficace et automatique
 	 */
-	private static int ID;
+	public static int ID = chercherMAXID();
 
-//	private int chercherMAXID() throws SQLException{
-//		String req = SEARCH_MAX_ID;
-//		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
-//		ResultSet rs = ps.executeQuery();
-////		Si il existe des données en base
-//		if(rs.next()) {
-//			return rs.getInt("maxid")+1;
-//		}
-//		return 0;
-//	}
+	public static int chercherMAXID()  {
+		String req = SEARCH_MAX_ID;
+		PreparedStatement ps;
+		try {
+			ps = DBConfig.getInstance().getConn().prepareStatement(req);
+			ResultSet rs = ps.executeQuery();
+	//		Si il existe des données en base
+			if(rs.next()) {
+				return rs.getInt("maxid")+1;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
 	/**
 	 * Inserer une nouvelle personne
 	 * @param p la personne à insérer
 	 */
 	@Override
 	public void insert(Personne p) throws SQLException {
-		// TODO Auto-generated method stub
 		String req = INSERT_INTO_PERSONNE_VALUES;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setInt(1, p.getId());
@@ -81,6 +85,7 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 		}
 		ps.setNull(8,Types.INTEGER);
 		ps.executeUpdate();
+		p.setId(ID);
 		ID++;
 	}
 	/**
@@ -89,7 +94,6 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 */
 	@Override
 	public void delete(Personne p) throws SQLException {
-		// TODO Auto-generated method stub
 		String req = DELETE_FROM_PERSONNE_WHERE_ID;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setInt(1, p.getId());
@@ -101,7 +105,6 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 */
 	@Override
 	public void update(Personne p) throws SQLException {
-		// TODO Auto-generated method stub
 		String req = UPDATE_PERSONNE_SET_INFOS_WHERE_ID;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setString(1, p.getNom());
@@ -125,7 +128,6 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 */
 	@Override
 	public List<Personne> find() throws SQLException {
-		// TODO Auto-generated method stub
 		String req = SELECT_FROM_PERSONNE;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ResultSet rs = ps.executeQuery();
@@ -155,7 +157,6 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 */
 	@Override
 	public Personne findById(int id) throws SQLException {
-		// TODO Auto-generated method stub
 		String req = SELECT_FROM_PERSONNE_WHERE_ID;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setInt(1,id);
@@ -165,18 +166,16 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 			return extrairePersonne(rs);
 		return null;
 	}
-	public void deleteBureau(int idPersonne) throws SQLException {
-		String req=UPDATE_BUREAU;
+	
+	public Personne findByNumTel(String numeroTel) throws SQLException {
+		String req = SELECT_FROM_PERSONNE_WHERE_NUMTEL;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
-		ps.setNull(1, Types.INTEGER);
-		ps.setInt(2, idPersonne);
-		ps.executeUpdate();
+		ps.setString(1,numeroTel);
+		ResultSet rs = ps.executeQuery();
+//		Si on a au moins une ligne en retour
+		if(rs.next())
+			return extrairePersonne(rs);
+		return null;
 	}
-	public void updateBureau(int idPersonne,int idBureau) throws SQLException {
-		String req=UPDATE_BUREAU;
-		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
-		ps.setInt(1, idBureau);
-		ps.setInt(2, idPersonne);
-		ps.executeUpdate();
-	}
+
 }
