@@ -26,12 +26,15 @@ public class Extraction {
         String formPers = rs.getString(8);
         String typePers = rs.getString(9);
 
-        if (typePers.equals("Chercheur")) {
-            personne = new Chercheur(idPers,nomPers,telPers,domainePers);
-        } else {
-            personne = new Administratif(idPers,nomPers,telPers,qualifPers,formPers);
+        if(typePers != null){
+	        if (typePers.equals("Chercheur")) {
+	            personne = new Chercheur(idPers,nomPers,telPers,domainePers);
+	        } else {
+	            personne = new Administratif(idPers,nomPers,telPers,qualifPers,formPers);
+	        }
+	        return personne;
         }
-        return personne;
+        return null;
     }
     /**
      * Permet d'extraire une personne d'une requete venant de PersonneMapper

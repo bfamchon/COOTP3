@@ -25,7 +25,7 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 			"FROM personne p " +
 			"WHERE p.telephone=?";
 	private static final String UPDATE_PERSONNE_SET_INFOS_WHERE_ID = "UPDATE personne " +
-			"SET nom=?,telephone=?,domaine=?,qualification=?,formation=?,typePersonne=? " +
+			"SET nom=?,telephone=?,domaine=?,qualification=?,formation=?,typePersonne=?, id_bureau=? " +
 			"WHERE id_personne=?";
 	private static final String SELECT_FROM_PERSONNE = "SELECT p.id_personne, p.nom, p.telephone,p.domaine,p.qualification,p.formation,p.typePersonne " +
 			"FROM personne p";
@@ -45,7 +45,7 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 */
 	public static int ID = chercherMAXID();
 
-	public static int chercherMAXID()  {
+	private static int chercherMAXID()  {
 		String req = SEARCH_MAX_ID;
 		PreparedStatement ps;
 		try {
@@ -68,7 +68,7 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	public void insert(Personne p) throws SQLException {
 		String req = INSERT_INTO_PERSONNE_VALUES;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
-		ps.setInt(1, p.getId());
+		ps.setInt(1, ID);
 		ps.setString(2, p.getNom());
 		ps.setString(3, p.getNumero());
 
@@ -120,7 +120,11 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 			ps.setString(5,((Administratif)p).getFormation());
 			ps.setString(6,"Administratif");
 		}
-		ps.setInt(7,p.getId());
+		if(p.getIdBureau() != null)
+			ps.setInt(7, p.getIdBureau());
+		else
+			ps.setNull(7, Types.INTEGER);
+		ps.setInt(8,p.getId());
 		ps.executeUpdate();
 	}
 	/**
@@ -156,7 +160,7 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 * @param id de la personne à récupérer
 	 */
 	@Override
-	public Personne findById(int id) throws SQLException {
+	public Personne findById(Integer id) throws SQLException {
 		String req = SELECT_FROM_PERSONNE_WHERE_ID;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setInt(1,id);

@@ -31,13 +31,14 @@ public class SMGestionnaireBureau {
      */
     public void affecterPersonneBureau(Personne personne,Bureau bureau) throws SQLException {
         try {
-        	personne.setIdBureau(bureau.getId());
-        	if(trouverBureau(bureau) != null){
+        	if(bureau.getId() != null && trouverBureau(bureau) != null){
+            	personne.setIdBureau(bureau.getId());
 	        	bureauMapper.update(bureau);
 	        	bureau.ajouterOccupant(personne);
 	        	insererOuModifierPersonne(personne);
         	}else{
         		bureauMapper.insert(bureau);
+            	personne.setIdBureau(bureau.getId());
             	bureau.ajouterOccupant(personne);
             	for(Personne p : bureau.getOccupants()){
     	        	insererOuModifierPersonne(p);
@@ -61,10 +62,11 @@ public class SMGestionnaireBureau {
     public void enleverPersonneBureau(Personne personne,Bureau bureau) throws SQLException {
         try {
         	SMGestionnairePersonne gestionnairePersonne = new SMGestionnairePersonne();
-        	personne.setIdBureau(null);
-        	bureau.retirerOccupant(personne.getId());
-        	gestionnairePersonne.modifierPersonne(personne);
-        	bureauMapper.update(bureau);
+        	if(bureau.retirerOccupant(personne.getId())){
+	        	personne.setIdBureau(null);
+	        	gestionnairePersonne.modifierPersonne(personne);
+	        	bureauMapper.update(bureau);
+        	}
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,6 +81,16 @@ public class SMGestionnaireBureau {
         return null;
     }
   
+    public List<Bureau> ListerBureau() throws SQLException {
+        try {
+        	return bureauMapper.find();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+  
+    
     @Override
     public void finalize(){
     	DBConfig.getInstance().fermerConnexion();

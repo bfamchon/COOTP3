@@ -12,7 +12,7 @@ public abstract class Personne {
 	/**
 	 * id de la personne
 	 */
-	private int id;
+	private Integer id;
 	/**
 	 * nom de la personne
 	 */
@@ -30,15 +30,29 @@ public abstract class Personne {
 	
 	/**
 	 * Constructeur de l'objet personne, sera appelé dans les classe héritant de Personne
+	 * @param nom nom de la personne
+	 * @param numero numero de téléphone de la personne
+	 */
+	public Personne( String nom, String numero) {
+		super();
+		this.id = null;
+		this.nom = nom;
+		this.numero = numero;
+		idBureau = null;
+	}
+	
+	/**
+	 * Constructeur de l'objet personne, sera appelé dans les classe héritant de Personne
 	 * @param id id de la personne
 	 * @param nom nom de la personne
 	 * @param numero numero de téléphone de la personne
 	 */
-	public Personne(int id, String nom, String numero) {
+	public Personne(Integer id, String nom, String numero) {
 		super();
 		this.id = id;
-		nom = nom;
-		numero = numero;
+		this.nom = nom;
+		this.numero = numero;
+		idBureau = null;
 	}
 	
 
@@ -69,7 +83,7 @@ public abstract class Personne {
 	 * @param nom nouveau nom de la personne
 	 */
 	public void setNom(String nom) {
-		nom = nom;
+		this.nom = nom;
 	}
 	/**
 	 * Accesseur du champ numero de téléphone
@@ -83,7 +97,7 @@ public abstract class Personne {
 	 * @param numero nouveau numero de téléphone la personne
 	 */
 	public void setNumero(String numero) {
-		numero = numero;
+		this.numero = numero;
 	}
 	
 	
