@@ -29,14 +29,14 @@ public class Bureau {
 		this.occupants = new ArrayList<Personne>();
 	}
 	
-	public Bureau(int id, String description) {
+	public Bureau(Integer id, String description) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.occupants = new ArrayList<Personne>();
 	}
 
-	public Bureau(int id, String description, List<Personne> occupants) {
+	public Bureau(Integer id, String description, List<Personne> occupants) {
 		super();
 		this.id = id;
 		this.description = description;
@@ -112,12 +112,14 @@ public class Bureau {
 	 * retire un occupant du bureau
 	 * @param idOccupants id de l'occupant que l'on souhaite retirer
 	 */
-	public void retirerOccupant(Integer idOccupants) {
+	public boolean retirerOccupant(Integer idOccupants) {
 		for (Personne occupant : occupants) {
 			if (occupant.getId() == idOccupants) {
 				this.occupants.remove(occupant);
+				return true;
 			}
 		}
+		return false;
 	}
 	/* (non-Javadoc)
  * @see java.lang.Object#toString()

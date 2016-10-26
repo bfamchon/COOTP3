@@ -14,6 +14,16 @@ public class Chercheur extends Personne {
 
 	
 
+	/**
+	 * Constructeur de la personne chercheur, appel le constructeur de Personne
+	 * @param nom
+	 * @param numero
+	 * @param domaine
+	 */
+	public Chercheur( String nom, String numero, String domaine) {
+		super(nom, numero);
+		this.domaine = domaine;
+	}
 
 	/**
 	 * Constructeur de la personne chercheur, appel le constructeur de Personne
@@ -22,7 +32,7 @@ public class Chercheur extends Personne {
 	 * @param numero
 	 * @param domaine
 	 */
-	public Chercheur(int id, String nom, String numero, String domaine) {
+	public Chercheur(Integer id, String nom, String numero, String domaine) {
 		super(id, nom, numero);
 		this.domaine = domaine;
 	}

@@ -2,7 +2,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.cf.domain.Bureau;
+import com.cf.domain.Chercheur;
 import com.cf.domain.Personne;
+import com.cf.metier.SMGestionnaireBureau;
+import com.cf.metier.SMGestionnairePersonne;
 import com.cf.persistence.BureauMapper;
 import com.cf.persistence.InterfaceMapper;
 import com.cf.persistence.PersonneMapper;
@@ -11,10 +14,50 @@ import com.cf.persistence.gestionnaireconnexion.DBConfig;
 
 public class Main {
 
+	
+	public static void main(String[] args) {
+		SMGestionnaireBureau gestionnaireBureau = new SMGestionnaireBureau();
+		SMGestionnairePersonne gestionnairePersonne = new SMGestionnairePersonne();
+		try {
+		Personne p = new Chercheur("Laurent","060606003","Informatique");
+		Bureau b = new Bureau("Bureau de Laurent");
+		gestionnairePersonne.ajouterPersonne(p);
+		
+		gestionnaireBureau.affecterPersonneBureau(p,b);
+
+		//b plus le m�me objet car ensuite charg� depuis la base
+
+		List<Bureau> listeBureaux = gestionnaireBureau.ListerBureau();
+
+		for(Bureau bureau : listeBureaux){
+				System.out.println(bureau.toString());
+		}
+		
+		gestionnaireBureau.enleverPersonneBureau(p, listeBureaux.get(0));
+		
+		for(Bureau bureau : listeBureaux){
+			System.out.println(bureau.toString());
+		}
+		
+		listeBureaux = gestionnaireBureau.ListerBureau();
+
+		for(Bureau bureau : listeBureaux){
+				System.out.println(bureau.toString());
+		}
+		
+		gestionnairePersonne.changerNumPersonne(p, "0101010101");
+		
+		Personne personneRecherche = gestionnairePersonne.rechercherPersonneByTel("0101010101", listeBureaux);
+		
+		System.out.println(personneRecherche.toString());
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * @param args
 	 */
-	public static void main(String[] args) {
+/*	public static void main(String[] args) {
 		InterfaceMapper<Bureau> bMapper = new BureauMapper();
 		InterfaceMapper<Personne> pMapper = new PersonneMapper();
 		try {
@@ -61,20 +104,11 @@ public class Main {
 //				System.out.println(stkB.toString());
 //			}
 
-			System.out.println("fin");
+	/*		System.out.println("fin");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		DBConfig.getInstance().fermerConnexion();
 	}
-
+*/
 }
-/*
-*Personne mapper implémenté
-Bureau mapper implémenté
-Ajout de quelques commentaires ( + Remarques à voir )
-
-Implémentation de quelques services métier ( à voir car j'y ai fait des requetes sql > update téléphone par exemple, impossible à faire dans les filles d'une interface !
-
-J'ai séparé les classes
- */
