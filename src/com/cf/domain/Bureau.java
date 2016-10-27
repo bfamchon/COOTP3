@@ -18,22 +18,30 @@ public class Bureau {
 	 */
 	private String description;
 	/**
-	 * ArrayList de Personne représentant les occupants actuel du bureau 
+	 * ArrayList de Personne représentant les occupants actuels du bureau
 	 */
 	private List<Personne> occupants;
 
+	/**
+	 * Constructeur de l'objet Bureau
+	 * @param description
+	 */
 	public Bureau(String description) {
 		super();
 		this.id = null;
 		this.description = description;
-		this.occupants = new ArrayList<Personne>();
+		this.occupants = new ArrayList<>();
 	}
-	
+	/**
+	 * Constructeur de l'objet Bureau
+	 * @param id
+	 * @param description
+	 */
 	public Bureau(Integer id, String description) {
 		super();
 		this.id = id;
 		this.description = description;
-		this.occupants = new ArrayList<Personne>();
+		this.occupants = new ArrayList<>();
 	}
 
 	public Bureau(Integer id, String description, List<Personne> occupants) {
@@ -111,10 +119,11 @@ public class Bureau {
 	/**
 	 * retire un occupant du bureau
 	 * @param idOccupants id de l'occupant que l'on souhaite retirer
+	 * @return on retourne le resultat de la suppression
 	 */
 	public boolean retirerOccupant(Integer idOccupants) {
 		for (Personne occupant : occupants) {
-			if (occupant.getId() == idOccupants) {
+			if (occupant.getId().equals(idOccupants)) {
 				this.occupants.remove(occupant);
 				return true;
 			}

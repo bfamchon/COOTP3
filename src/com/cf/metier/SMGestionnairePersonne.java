@@ -9,14 +9,29 @@ import com.cf.persistence.InterfaceMapper;
 import com.cf.persistence.PersonneMapper;
 import com.cf.persistence.gestionnaireconnexion.DBConfig;
 
+/**
+ * Classe de gestion métier de la Personne
+ */
 public class SMGestionnairePersonne {
-	InterfaceMapper<Personne> pMapper;
-	
+	/**
+	 * personneMapper commun aux methodes de class
+	 */
+	private PersonneMapper pMapper;
+
+	/**
+	 * Constructeur du Gestionnaire de Personne
+	 */
     public SMGestionnairePersonne() {
 		super();
-        pMapper = new PersonneMapper();
+        this.pMapper = new PersonneMapper();
 	}
-    
+
+	/**
+	 * Change le numero de telephone de la personne en base et dans l'objet p
+	 * @param p
+	 * @param telephone
+	 * @throws SQLException
+	 */
 	public void changerNumPersonne(Personne p,String telephone) throws SQLException {
         try {
             p.setNumero(telephone);
@@ -27,6 +42,7 @@ public class SMGestionnairePersonne {
     }
 	
 	/**
+	 * Met à jour la personne p avec ses nouveaux paramètres
 	 * @param p
 	 * @throws SQLException
 	 */
@@ -37,8 +53,14 @@ public class SMGestionnairePersonne {
             e.printStackTrace();
         }
     }
-	
-	public Personne rechercherPersonneById(Integer idPersonne) {
+
+	/**
+	 * Rechercher la personne par son ID
+	 * @param idPersonne l'id de la personne recherchee
+	 * @return la personne si elle est trouvee
+	 * @throws SQLException
+	 */
+	public Personne rechercherPersonneById(Integer idPersonne) throws SQLException {
 		try {
 			return ((PersonneMapper) pMapper).findById(idPersonne);
 		} catch (SQLException e) {
@@ -46,6 +68,15 @@ public class SMGestionnairePersonne {
 		}
 		return null;
 	}
+
+	/**
+	 * Rechercher la personne par son numero de telephone, on fait d'abord une recherche dans les objets
+	 * pour eviter de parcourir la base...
+	 * @param telephone le numero de la personne recherchee
+	 * @param listBureau la liste de bureaux dans laquelle on va rechercher la personne
+	 * @return la personne si elle est trouvee
+	 * @throws SQLException
+	 */
     public Personne rechercherPersonneByTel(String telephone, List<Bureau> listBureau) throws SQLException {
         try {
         	for(Bureau bureau : listBureau){
@@ -62,17 +93,22 @@ public class SMGestionnairePersonne {
         }
         return null;
     }
-    
-    @Override
-    public void finalize(){
-    	DBConfig.getInstance().fermerConnexion();
-    }
 
-	public void ajouterPersonne(Personne personne) {
+	/**
+	 * Ajouter une personne dans la base
+	 * @param personne
+	 * @throws SQLException
+	 */
+	public void ajouterPersonne(Personne personne) throws SQLException{
 		try {
 			this.pMapper.insert(personne);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
+    @Override
+    public void finalize(){
+    	DBConfig.getInstance().fermerConnexion();
+    }
 }

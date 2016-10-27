@@ -13,11 +13,16 @@ import com.cf.domain.Administratif;
 import com.cf.domain.Chercheur;
 import com.cf.domain.Personne;
 import com.cf.persistence.gestionnaireconnexion.DBConfig;
+
 /**
  * Created by baptiste on 22/10/16.
  * Class représentante d'un mapper de personne
  */
 public class PersonneMapper implements InterfaceMapper<Personne> {
+
+	/**
+	 * Differentes constantes que nous utilisons pour nos requetes
+	 */
 	private static final String SELECT_FROM_PERSONNE_WHERE_ID = "SELECT p.id_personne, p.nom, p.telephone,p.domaine,p.qualification,p.formation,p.typePersonne " +
 			"FROM personne p " +
 			"WHERE p.id_personne=?";
@@ -34,18 +39,12 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	private static final String SEARCH_MAX_ID = "SELECT MAX(id_personne) as maxid FROM personne";
 
 	/**
-	 * Problème ID: si la BD contient des valeurs ( id 0,1,2,3... ), que l'on souhaite insérer un id de 999
-	 * Ici, on se base sur le param ID initialisé à 0
-	 * Ça lance des exceptions ( logique ) car l'ID exsite déjà.
-	 * Solution simple: se baser que sur l'ID de l'objet en paramètre > l'ID dans les mappers ne sert à rien
-	 * Pas dérangeant pour notre sujet, 2/3 insertions...
-	 *
-	 * Solution + chiante: CHECK validité de l'ID en base > Si valide: ID de l'objet Personne,Sinon: MAX(ID)+1
-	 * Plus éfficace et automatique
+	 * On utilise une recherche d'ID max en base
+	 * On considere que l'utilisateur n'a pas a gerer l'ID des objets
 	 */
 	public static int ID = chercherMAXID();
 
-	private static int chercherMAXID()  {
+	private static int chercherMAXID() {
 		String req = SEARCH_MAX_ID;
 		PreparedStatement ps;
 		try {
@@ -61,11 +60,12 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 		return 0;
 	}
 	/**
-	 * Inserer une nouvelle personne
+	 * Inserer une nouvelle personne ( Chercheur ou Administratif )
 	 * @param p la personne à insérer
 	 */
 	@Override
-	public void insert(Personne p) throws SQLException {
+	public void insert(Personne p)
+			throws SQLException {
 		String req = INSERT_INTO_PERSONNE_VALUES;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setInt(1, ID);
@@ -93,7 +93,8 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 * @param p la personne à supprimer
 	 */
 	@Override
-	public void delete(Personne p) throws SQLException {
+	public void delete(Personne p)
+			throws SQLException {
 		String req = DELETE_FROM_PERSONNE_WHERE_ID;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setInt(1, p.getId());
@@ -104,7 +105,8 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	 * @param p la personne à modifier
 	 */
 	@Override
-	public void update(Personne p) throws SQLException {
+	public void update(Personne p)
+			throws SQLException {
 		String req = UPDATE_PERSONNE_SET_INFOS_WHERE_ID;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setString(1, p.getNom());
@@ -129,9 +131,11 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	}
 	/**
 	 * Lister les personnes
+	 * @return la liste des personnes trouvees
 	 */
 	@Override
-	public List<Personne> find() throws SQLException {
+	public List<Personne> find()
+			throws SQLException {
 		String req = SELECT_FROM_PERSONNE;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ResultSet rs = ps.executeQuery();
@@ -158,9 +162,11 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 	/**
 	 * Récupérer une personne
 	 * @param id de la personne à récupérer
+	 * @return la personne trouvee
 	 */
 	@Override
-	public Personne findById(Integer id) throws SQLException {
+	public Personne findById(Integer id)
+			throws SQLException {
 		String req = SELECT_FROM_PERSONNE_WHERE_ID;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setInt(1,id);
@@ -170,8 +176,14 @@ public class PersonneMapper implements InterfaceMapper<Personne> {
 			return extrairePersonne(rs);
 		return null;
 	}
-	
-	public Personne findByNumTel(String numeroTel) throws SQLException {
+
+	/**
+	 * Recuperer une personne à partir de son numero de telephone
+	 * @param numeroTel le telephone de la personne à chercher
+	 * @return la personne trouvee
+	 */
+	public Personne findByNumTel(String numeroTel)
+			throws SQLException {
 		String req = SELECT_FROM_PERSONNE_WHERE_NUMTEL;
 		PreparedStatement ps = DBConfig.getInstance().getConn().prepareStatement(req);
 		ps.setString(1,numeroTel);

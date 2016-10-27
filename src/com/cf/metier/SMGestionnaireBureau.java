@@ -8,17 +8,31 @@ import com.cf.domain.Personne;
 import com.cf.persistence.BureauMapper;
 import com.cf.persistence.gestionnaireconnexion.DBConfig;
 
+/**
+ * Classe de gestion metier du Bureau
+ */
 public class SMGestionnaireBureau {
-
+	/**
+	 * bureauMapper commun aux methodes de class
+	 */
 	private BureauMapper bureauMapper;
 
-	
+	/**
+	 * Constructeur du Gestionnaire de Bureau
+	 */
     public SMGestionnaireBureau() {
 		super();
 		this.bureauMapper =  new BureauMapper();
 	}
 
-	public List<Personne> listerPersonnesDansBureau(Bureau bureau) throws SQLException {
+	/**
+	 * Constructeur de l'objet personne, sera appelÃ© dans les classe hÃ©ritant de Personne
+	 * @param bureau le bureau duquel on liste les personnes
+	 * @return la liste des personnes
+	 * @throws SQLException
+	 */
+	public List<Personne> listerPersonnesDansBureau(Bureau bureau)
+			throws SQLException {
     		return bureau.getOccupants();
     }
     
@@ -29,7 +43,8 @@ public class SMGestionnaireBureau {
      * @param bureau
      * @throws SQLException
      */
-    public void affecterPersonneBureau(Personne personne,Bureau bureau) throws SQLException {
+    public void affecterPersonneBureau(Personne personne,Bureau bureau)
+			throws SQLException {
         try {
         	if(bureau.getId() != null && trouverBureau(bureau) != null){
             	personne.setIdBureau(bureau.getId());
@@ -49,17 +64,32 @@ public class SMGestionnaireBureau {
         }
     }
 
+	/**
+	 * Inserer ou modifier une personne en base
+	 * Si la personne n'existe pas, elle est creee. Sinon, on la met a jour
+	 * @param personne
+	 * @throws SQLException
+	 */
 	private void insererOuModifierPersonne(Personne personne )
 			throws SQLException {
     	SMGestionnairePersonne gestionnairePersonne = new SMGestionnairePersonne();
-		//On vérifie que la personne que l'on souhaite ajouter existe en base sinon on le crée
+		//On verifie que la personne que l'on souhaite ajouter existe en base sinon on le cree
 		if(gestionnairePersonne.rechercherPersonneById(personne.getId())!= null)
 			gestionnairePersonne.modifierPersonne(personne);
 		else{
 			gestionnairePersonne.ajouterPersonne(personne);
 		}
 	}
-    public void enleverPersonneBureau(Personne personne,Bureau bureau) throws SQLException {
+
+	/**
+	 * Enlever une personne d'un bureau en base et dans les objets
+	 * On test d'abord si la personne a pu etre retirer en objet ( si elle existe bien )
+	 * @param personne
+	 * @param bureau
+	 * @throws SQLException
+	 */
+    public void enleverPersonneBureau(Personne personne,Bureau bureau)
+			throws SQLException {
         try {
         	SMGestionnairePersonne gestionnairePersonne = new SMGestionnairePersonne();
         	if(bureau.retirerOccupant(personne.getId())){
@@ -71,8 +101,14 @@ public class SMGestionnaireBureau {
             e.printStackTrace();
         }
     }
-  
-    public Bureau trouverBureau(Bureau bureau) throws SQLException {
+	/**
+	 * On cherche le bureau passe en parametre
+	 * @param bureau
+	 * @return le bureau trouve
+	 * @throws SQLException
+	 */
+    public Bureau trouverBureau(Bureau bureau)
+			throws SQLException {
         try {
         	return bureauMapper.findById(bureau.getId());
         } catch (SQLException e) {
@@ -80,8 +116,14 @@ public class SMGestionnaireBureau {
         }
         return null;
     }
-  
-    public List<Bureau> ListerBureau() throws SQLException {
+
+	/**
+	 * On liste les bureaux
+	 * @return la liste des bureaux
+	 * @throws SQLException
+	 */
+    public List<Bureau> ListerBureau()
+			throws SQLException {
         try {
         	return bureauMapper.find();
         } catch (SQLException e) {

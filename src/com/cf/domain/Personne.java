@@ -23,7 +23,7 @@ public abstract class Personne {
 	private String numero;
 	
 	/**
-	 * Repr�sente l'id du bureau dans lequelle la personne est affect�. Ne pas modifier cette attribut except� avec les m�thodes 
+	 * Represente l'id du bureau dans lequelle la personne est affecte. Ne pas modifier cette attribut excepte avec les methodes
 	 * SMGestionnaireBureau.enleverPersonneBureau/affecterPersonneBureau
 	 */
 	private Integer idBureau;
@@ -42,7 +42,7 @@ public abstract class Personne {
 	}
 	
 	/**
-	 * Constructeur de l'objet personne, sera appelé dans les classe héritant de Personne
+	 * Constructeur de l'objet personne, sera appelé dans les classe héritant de Personne et par le BureauMapper
 	 * @param id id de la personne
 	 * @param nom nom de la personne
 	 * @param numero numero de téléphone de la personne
@@ -54,14 +54,12 @@ public abstract class Personne {
 		this.numero = numero;
 		idBureau = null;
 	}
-	
-
 
 	/**
 	 * Accesseur du champ id
 	 * @return id de la personne
 	 */
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 	/**
@@ -99,8 +97,7 @@ public abstract class Personne {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	
-	
+
 	/**
 	 * Permet de changer le numéro de la personne
 	 * @param nouveauNumero nouveau numero de téléphone la personne
@@ -109,14 +106,18 @@ public abstract class Personne {
 		this.setNumero(nouveauNumero);
 	}
 
-
-
+	/**
+	 * Accesseur du champ idBureau
+	 * @return l'ID du bureau
+	 */
 	public Integer getIdBureau() {
 		return idBureau;
 	}
 
-
-
+	/**
+	 * Permet de changer l'ID du bureau de la personne
+	 * @param idBureau id du nouveau bureau de la personne
+	 */
 	public void setIdBureau(Integer idBureau) {
 		this.idBureau = idBureau;
 	}

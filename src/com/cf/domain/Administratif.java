@@ -1,7 +1,7 @@
 package com.cf.domain;
 
 /**
- * Etend de personne, représente une personne de type administratif
+ * Extend de personne, représente une personne de type administratif
  * @author canis
  *
  */

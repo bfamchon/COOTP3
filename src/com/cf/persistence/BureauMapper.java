@@ -17,6 +17,9 @@ import static com.cf.persistence.Extraction.extrairePersonneBureau;
  * pour avoir les bureaux ainsi que les occupants
  */
 public class BureauMapper implements InterfaceMapper<Bureau>{
+	/**
+	 * Differentes constantes que nous utilisons pour nos requetes
+	 */
 	private static final String SELECT_FROM_BUREAU_WHERE_ID = "SELECT b.id_bureau, b.description, p.id_personne, p.nom, p.telephone,p.domaine,p.qualification,p.formation,p.typePersonne FROM bureau b INNER JOIN personne p ON b.id_bureau = p.id_bureau WHERE b.id_bureau=?";
 	private static final String UPDATE_BUREAU_SET_DESCR_WHERE_ID = "UPDATE bureau SET description=? WHERE id_bureau=?";
 	private static final String SELECT_FROM_BUREAU_JOIN_PERSONNE= "SELECT b.id_bureau, b.description, p.id_personne, p.nom, p.telephone,p.domaine,p.qualification,p.formation,p.typePersonne FROM bureau b LEFT JOIN personne p ON b.id_bureau = p.id_bureau";
@@ -25,7 +28,12 @@ public class BureauMapper implements InterfaceMapper<Bureau>{
 	private static final String DELETE_FROM_BUREAU_WHERE_ID = "DELETE FROM bureau WHERE id_bureau= ?";
 	private static final String SEARCH_MAX_ID = "SELECT MAX(id_bureau) as maxid FROM bureau";
 
+	/**
+	 * On utilise une recherche d'ID max en base
+	 * On considere que l'utilisateur n'a pas a gerer l'ID des objets
+	 */
 	public static int ID = chercherMAXID();
+
 
 	private static int chercherMAXID()  {
 		String req = SEARCH_MAX_ID;

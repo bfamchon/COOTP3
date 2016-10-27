@@ -3,8 +3,6 @@ package com.cf.persistence;
 import java.sql.SQLException;
 import java.util.List;
 
-import com.cf.domain.Bureau;
-
 /**
  * Interface des mappers
  */

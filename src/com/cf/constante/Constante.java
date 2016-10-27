@@ -1,5 +1,8 @@
 package com.cf.constante;
 
+/**
+ * Classe regroupant nos constantes d'accès aux bases
+ */
 public class Constante {
 
 	public static final String CONNEXION_CONFIG = "jdbc:mysql://webtp.fil.univ-lille1.fr/famchon?" +
