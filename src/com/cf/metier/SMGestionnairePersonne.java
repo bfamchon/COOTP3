@@ -42,7 +42,7 @@ public class SMGestionnairePersonne {
     }
 	
 	/**
-	 * Met à jour la personne p avec ses nouveaux paramètres
+	 * Met à jour la personne p avec ses nouveaux parametres
 	 * @param p
 	 * @throws SQLException
 	 */
@@ -70,8 +70,8 @@ public class SMGestionnairePersonne {
 	}
 
 	/**
-	 * Rechercher la personne par son numero de telephone, on fait d'abord une recherche dans les objets
-	 * pour eviter de parcourir la base...
+	 * Rechercher la personne par son numero de telephone, tout d'abord dans l'application puis en base.
+	 * Si listBureau est null, la recherche sera uniquement effectue en base.
 	 * @param telephone le numero de la personne recherchee
 	 * @param listBureau la liste de bureaux dans laquelle on va rechercher la personne
 	 * @return la personne si elle est trouvee
@@ -79,15 +79,17 @@ public class SMGestionnairePersonne {
 	 */
     public Personne rechercherPersonneByTel(String telephone, List<Bureau> listBureau) throws SQLException {
         try {
-        	for(Bureau bureau : listBureau){
-        		List<Personne> listPersonne = bureau.getOccupants();
-        		for(Personne personne : listPersonne){
-        			if(telephone.equals(personne.getNumero())){
-        				return personne;
-        			}
-        		} 		
-        	}   	
-        	return ((PersonneMapper) pMapper).findByNumTel(telephone); 
+        	if(listBureau != null){
+	        	for(Bureau bureau : listBureau){
+	        		List<Personne> listPersonne = bureau.getOccupants();
+	        		for(Personne personne : listPersonne){
+	        			if(telephone.equals(personne.getNumero())){
+	        				return personne;
+	        			}
+	        		} 		
+	        	}   	
+        	}
+	        return ((PersonneMapper) pMapper).findByNumTel(telephone); 
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -107,6 +109,9 @@ public class SMGestionnairePersonne {
 		}
 	}
 
+    /* 
+     * Ferme la connexion � la base de donnees si l'objet n'est plus utilise
+     */
     @Override
     public void finalize(){
     	DBConfig.getInstance().fermerConnexion();

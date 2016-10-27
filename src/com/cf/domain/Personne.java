@@ -1,8 +1,8 @@
 package com.cf.domain;
 
 /**
- * Classe abstraite représentant une Personne dans le contexte du tp3.
- * Les personnes peuvent être instancié en temps que Administratif ou Chercheur
+ * Classe abstraite representant une Personne dans le contexte du tp3.
+ * Les personnes peuvent etre instancie en temps que Administratif ou Chercheur
  * @author canis
  *
  */
@@ -18,7 +18,7 @@ public abstract class Personne {
 	 */
 	private String nom;
 	/**
-	 * numero de téléphone de la personne
+	 * numero de telephone de la personne
 	 */
 	private String numero;
 	
@@ -29,9 +29,9 @@ public abstract class Personne {
 	private Integer idBureau;
 	
 	/**
-	 * Constructeur de l'objet personne, sera appelé dans les classe héritant de Personne
+	 * Constructeur de l'objet personne, sera appele dans les classe heritant de Personne
 	 * @param nom nom de la personne
-	 * @param numero numero de téléphone de la personne
+	 * @param numero numero de telephone de la personne
 	 */
 	public Personne( String nom, String numero) {
 		super();
@@ -42,10 +42,10 @@ public abstract class Personne {
 	}
 	
 	/**
-	 * Constructeur de l'objet personne, sera appelé dans les classe héritant de Personne et par le BureauMapper
+	 * Constructeur de l'objet personne, sera appele dans les classe heritant de Personne
 	 * @param id id de la personne
 	 * @param nom nom de la personne
-	 * @param numero numero de téléphone de la personne
+	 * @param numero numero de telephone de la personne
 	 */
 	public Personne(Integer id, String nom, String numero) {
 		super();
@@ -84,23 +84,23 @@ public abstract class Personne {
 		this.nom = nom;
 	}
 	/**
-	 * Accesseur du champ numero de téléphone
-	 * @return le numero de téléphone de la personne
+	 * Accesseur du champ numero de telephone
+	 * @return le numero de telephone de la personne
 	 */
 	public String getNumero() {
 		return numero;
 	}
 	/**
 	 * Accesseur du champ numero
-	 * @param numero nouveau numero de téléphone la personne
+	 * @param numero nouveau numero de telephone la personne
 	 */
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
 
 	/**
-	 * Permet de changer le numéro de la personne
-	 * @param nouveauNumero nouveau numero de téléphone la personne
+	 * Permet de changer le numero de la personne
+	 * @param nouveauNumero nouveau numero de telephone la personne
 	 */
 	public void changerNumero(String nouveauNumero){
 		this.setNumero(nouveauNumero);

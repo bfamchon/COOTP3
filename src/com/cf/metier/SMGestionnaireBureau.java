@@ -82,8 +82,7 @@ public class SMGestionnaireBureau {
 	}
 
 	/**
-	 * Enlever une personne d'un bureau en base et dans les objets
-	 * On test d'abord si la personne a pu etre retirer en objet ( si elle existe bien )
+	 * Methode permetant d'enlever une personne d'un bureau
 	 * @param personne
 	 * @param bureau
 	 * @throws SQLException
@@ -102,7 +101,7 @@ public class SMGestionnaireBureau {
         }
     }
 	/**
-	 * On cherche le bureau passe en parametre
+	 * Methode permettant de rechercher le bureau passe en parametre via son id
 	 * @param bureau
 	 * @return le bureau trouve
 	 * @throws SQLException
@@ -118,7 +117,7 @@ public class SMGestionnaireBureau {
     }
 
 	/**
-	 * On liste les bureaux
+	 * Methode permettant de lister les bureaux
 	 * @return la liste des bureaux
 	 * @throws SQLException
 	 */
@@ -133,6 +132,9 @@ public class SMGestionnaireBureau {
     }
   
     
+    /* (non-Javadoc)
+     * Ferme la connexion a la base de donnee si l'objet n'est plus utilisee
+     */
     @Override
     public void finalize(){
     	DBConfig.getInstance().fermerConnexion();
