@@ -8,8 +8,6 @@ import com.cf.metier.SMGestionnaireBureau;
 import com.cf.metier.SMGestionnairePersonne;
 
 public class Main {
-
-
 	public static void main(String[] args) {
 		SMGestionnaireBureau gestionnaireBureau = new SMGestionnaireBureau();
 		SMGestionnairePersonne gestionnairePersonne = new SMGestionnairePersonne();

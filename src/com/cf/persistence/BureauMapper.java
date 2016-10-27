@@ -92,7 +92,7 @@ public class BureauMapper implements InterfaceMapper<Bureau>{
 
 	/**
 	 * Lister les bureaux existants avec ou sans les occupants
-	 *
+	 * @return la liste des bureaux trouves
 	 */
 	@Override
 	public List<Bureau> find() throws SQLException {
@@ -142,6 +142,7 @@ public class BureauMapper implements InterfaceMapper<Bureau>{
 	/**
 	 * Récupérer le bureau demandé
 	 * @param id l'id du bureau à récupérer
+	 * @return la personne trouvee
 	 */
 	@Override
 	public Bureau findById(Integer id) throws SQLException {

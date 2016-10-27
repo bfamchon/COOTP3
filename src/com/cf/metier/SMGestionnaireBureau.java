@@ -83,7 +83,7 @@ public class SMGestionnaireBureau {
 
 	/**
 	 * Enlever une personne d'un bureau en base et dans les objets
-	 * On test d'abord si la personne a pu etre retirer en objet ( si elle existe bien )
+	 * On test d'abord si la personne existe ( la methode appelée renvoie un booleen apres la suppression )
 	 * @param personne
 	 * @param bureau
 	 * @throws SQLException
