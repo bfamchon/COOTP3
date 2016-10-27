@@ -19,9 +19,9 @@ public class Main {
 			gestionnaireBureau.affecterPersonneBureau(p, b);
 
 		/*
-		 * Ã€ partir de ce moment, l'objet b "n'est plus le meme" car il est charge depuis la base,
-		 * donc dans un autre objet Bureau. Pour contrer se probleme, il peut etre interessant
-		 * d'utiliser les weak references / weak hash-map
+		 * A partir de ce moment, l'objet b "n'est plus le meme" car il est charge depuis la base,
+		 * donc dans un autre objet Bureau (autre zone mémoire). Pour contrer ce probleme, il peut etre interessant
+		 * d'utiliser les weak references / hash-map
 		 */
 			List<Bureau> listeBureaux = gestionnaireBureau.ListerBureau();
 

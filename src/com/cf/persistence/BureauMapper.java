@@ -35,6 +35,10 @@ public class BureauMapper implements InterfaceMapper<Bureau>{
 	public static int ID = chercherMAXID();
 
 
+	/**
+	 * Méthode permettant de rechercher l'id maximum disponible en base
+	 * @return
+	 */
 	private static int chercherMAXID()  {
 		String req = SEARCH_MAX_ID;
 		PreparedStatement ps;
